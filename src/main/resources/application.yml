@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ssaw-zuul
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:14780118635@www.senhu.com:10001/eureka/
+  instance:
+    prefer-ip-address: true   #注册服务时使用ip而非计算机名
+
+zuul:
+  routes:
+    test:
+      path: /api-a/**
+      serviceId: SSAW-DEMO-CONSUMER
+      sensitiveHeaders:       #将指定路由的敏感头置为空
+  ignored-services:           #不自动创建路由规则的服务
+  ignored-patterns:           #忽略匹配该表达式的路由
+  prefix:                     #前缀
+  strip-prefix: false         #对于代理前缀会默认从路径中移除，关闭该动作
+  sensitive-headers:          #默认的敏感头信息 Cookie,Set-Cookie,Authorization,将其置为空，但是所有服务都会发生这些铭感头信息
+  add-host-header: true       #解决重定向问题
+  add-proxy-headers: true     #添加X-Forwarded-*头域
+  ThrowExceptionFilter:
+    pre:
+      disable: true           #禁用抛出异常的过滤器
+
